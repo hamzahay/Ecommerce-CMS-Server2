@@ -1,0 +1,44 @@
+{
+  "name": "ecommerce-CMS-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "db:create": "sequelize db:create",
+    "db:create:dev": "set NODE_ENV=development&&npm run db:create",
+    "db:create:test": "set NODE_ENV=test&&npm run db:create",
+    "db:migrate": "sequelize db:migrate",
+    "db:migrate:dev": "set NODE_ENV=development&&npm run db:migrate",
+    "db:migrate:test": "set NODE_ENV=test&&npm run db:migrate",
+    "db:seed": "sequelize db:seed:all",
+    "db:seed:dev": "set NODE_ENV=development&&npm run db:seed",
+    "db:seed:test": "set NODE_ENV=test&&npm run db:seed",
+    "test": "set NODE_ENV=test&&npx jest",
+    "test:http": "set NODE_ENV=test&&nodemon bin/http.js",
+    "dev": "set NODE_ENV=development&&nodemon bin/http.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hamzahay/ecommerce-CMS-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hamzahay/ecommerce-CMS-server/issues"
+  },
+  "homepage": "https://github.com/hamzahay/ecommerce-CMS-server#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.5.1",
+    "sequelize": "^6.5.0",
+    "supertest": "^6.1.3"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3"
+  }
+}
