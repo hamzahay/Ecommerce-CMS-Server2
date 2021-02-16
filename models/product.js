@@ -5,7 +5,6 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     static associate(models) {
-      Product.belongsTo(models.User)
     }
   };
   Product.init({
@@ -27,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: { msg: 'stock is required' },
         min: {
-          args: 0,
+          args: [0],
           msg: 'stock has to more or equal to 0'
         }
       }

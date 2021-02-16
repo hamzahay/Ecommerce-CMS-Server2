@@ -11,7 +11,7 @@ describe('GET/ show all products', function () {
   it('should response with 200 status code when succseed', function (done) {
     //setup
 
-    const token
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYxMzQ2MzgzMn0.4ZGTN9csJCZKfseSReWvOcQYcJnsQ3dUEIgmLiVS9nM'
 
     //execute
     request(app)
@@ -33,7 +33,7 @@ describe('GET/ show all products', function () {
     //setup
     const body = {
       name: 'test',
-      img_url: 'test',
+      image_url: 'test',
       price: 'test',
       stock: 'test',
     }

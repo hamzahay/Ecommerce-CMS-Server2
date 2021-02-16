@@ -3,7 +3,8 @@ const app = require('../app')
 const models = require('../models')
 
 let id
-const token
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYxMzQ2MzgzMn0.4ZGTN9csJCZKfseSReWvOcQYcJnsQ3dUEIgmLiVS9nM'
+const customerToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJjdXN0b21lckBtYWlsLmNvbSIsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTYxMzQ2NjQwMX0.woV-HCfrRJhZw6qAeybLSXGFHqatGC57SOxRegMO0sA'
 
 describe('DELETE/ deleteProduct', function () {
 
@@ -16,7 +17,7 @@ describe('DELETE/ deleteProduct', function () {
 
     const body = {
       name: 'test1',
-      img_url: 'test',
+      image_url: 'test',
       price: 12000,
       stock: 10,
     }
@@ -46,6 +47,7 @@ describe('DELETE/ deleteProduct', function () {
       //assert
       expect(res.statusCode).toEqual(200)
       expect(typeof res.body).toEqual('object')
+      expect(res.body).toHaveProperty('message')
       
       done()
     })
@@ -55,14 +57,14 @@ describe('DELETE/ deleteProduct', function () {
     //setup
     const body = {
       name: 'test',
-      img_url: 'test',
+      image_url: 'test',
       price: 'test',
       stock: 'test',
     }
 
     //execute
     request(app)
-    .post('/products')
+    .delete(`/products/${id}`)
     .send(body)
     .end(function (err, res) {
       // error supertest
@@ -70,6 +72,33 @@ describe('DELETE/ deleteProduct', function () {
 
       //assert
       expect(res.statusCode).toEqual(401)
+      expect(typeof res.body).toEqual('object')
+      expect(res.body).toHaveProperty('errors')
+
+      done()
+    })
+  })
+
+  it('should response with 403 status code when user role is not admin', function (done) {
+    //setup
+    const body = {
+      name: 'test',
+      image_url: 'test',
+      price: 'test',
+      stock: 'test',
+    }
+
+    //execute
+    request(app)
+    .delete(`/products/${id}`)
+    .set('access_token', customerToken)
+    .send(body)
+    .end(function (err, res) {
+      // error supertest
+      if(err) done(err)
+
+      //assert
+      expect(res.statusCode).toEqual(403)
       expect(typeof res.body).toEqual('object')
       expect(res.body).toHaveProperty('errors')
 

@@ -11,6 +11,7 @@ class Controller {
   static async login (req, res, next) {
     try {
       const { email, password } = req.body
+      // if (!email || !password) 
       const user = await User.findOne({ where: { email: email }})
       if (user && comparePass(password, user.password)) {
         const payload = {

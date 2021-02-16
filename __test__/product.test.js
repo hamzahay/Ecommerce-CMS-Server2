@@ -12,13 +12,13 @@ describe('POST/ create product', function () {
     })
   })
   
-  const token
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYxMzQ2MzgzMn0.4ZGTN9csJCZKfseSReWvOcQYcJnsQ3dUEIgmLiVS9nM'
 
   it('should response with 201 status code when succseed', function (done) {
     //setup
     const body = {
       name: 'test1',
-      img_url: 'test',
+      image_url: 'test',
       price: 12000,
       stock: 10,
     }
@@ -38,8 +38,8 @@ describe('POST/ create product', function () {
       expect(res.body).toHaveProperty('id')
       expect(res.body).toHaveProperty('name')
       expect(res.body.name).toEqual(body.name)
-      expect(res.body).toHaveProperty('img_url')
-      expect(res.body.img_url).toEqual(body.img_url)
+      expect(res.body).toHaveProperty('image_url')
+      expect(res.body.image_url).toEqual(body.image_url)
       expect(res.body).toHaveProperty('price')
       expect(res.body.price).toEqual(body.price)
       expect(res.body).toHaveProperty('stock')
@@ -53,7 +53,7 @@ describe('POST/ create product', function () {
     //setup
     const body = {
       name: '',
-      img_url: 'test',
+      image_url: 'test',
       price: 'test',
       stock: 'test',
     }
@@ -80,7 +80,7 @@ describe('POST/ create product', function () {
     //setup
     const body = {
       name: 'test',
-      img_url: 'test',
+      image_url: 'test',
       price: 'test',
       stock: 'test',
     }
