@@ -21,7 +21,7 @@ class Controller {
 
   static async getAll (req, res, next) {
     try {
-      const product = await Product.findAll({ attributes: { exclude: ['createdAt', 'updatedAt'] }})
+      const product = await Product.findAll({ attributes: { exclude: ['createdAt', 'updatedAt'] }, order: [['createdAt']]})
       res.status(200).json(product)
     } catch (err) {
       console.log(err)
