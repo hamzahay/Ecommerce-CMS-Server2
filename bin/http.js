@@ -13,6 +13,9 @@ app.use(cors())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
+app.get('/', (req, res, next) => {
+  res.json({ message: 'welcome to CEMES SERVER' })
+})
 app.use(routes)
 app.use(errorHandler)
 
