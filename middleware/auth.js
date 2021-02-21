@@ -1,5 +1,5 @@
 const { verifyToken } = require('../helper/jwt')
-const { User, Product } = require('../models')
+const { User } = require('../models')
 
 async function authenticate (req, res, next) {
   try {
@@ -7,13 +7,11 @@ async function authenticate (req, res, next) {
     const payload = verifyToken(req.headers.access_token)
     const user = await User.findOne({ where: { email: payload.email }})
     if (user) {
+      req.user = user
       next()
     } else {
       throw ({ name: 401, message: 'unauthorize' })
     }
-    //} else {
-      //throw ({ name: 401, message: 'please login first' })
-    //}
   } catch (err) {
     console.log(err)
     next(err)
@@ -22,8 +20,8 @@ async function authenticate (req, res, next) {
 
 function authorize (req, res, next) {
   try {
-    const payload = verifyToken(req.headers.access_token)
-    if (payload.role === 'admin') {
+    const role = req.user.role
+    if (role === 'admin') {
       next()
     } else {
       throw ({ name: 403 })
