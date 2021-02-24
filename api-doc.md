@@ -235,3 +235,82 @@ Error Response when specific data not found:
   "errors": "not found"
 }
 ```
+
+### POST /carts/:productId
+
+Request:
+
+- headers:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+- params: integer (product id)
+
+Response: 
+
+- status: 201
+- body:
+
+```json
+{
+  "id": "integer",
+  "UserId": "integer",
+  "PoductId": "integer",
+  "quantity": "integer",
+  "status": "boolean",
+}
+```
+
+### GET /carts
+
+Request:
+
+- headers:
+
+```json
+{
+  "access_token": "string"
+}
+```
+
+Response: 
+
+- status: 201
+- body:
+
+```json
+[
+  {
+    "id": "integer",
+    "UserId": "integer",
+    "PoductId": "integer",
+    "quantity": "integer",
+    "status": "boolean",
+    "Product": {
+      "id": "integer",
+      "name": "string",
+      "image_url": "string",
+      "price": "double",
+      "stock": "integer"
+    }
+  },
+  {
+    "id": "integer",
+    "UserId": "integer",
+    "PoductId": "integer",
+    "quantity": "integer",
+    "status": "boolean",
+    "Product": {
+      "id": "integer",
+      "name": "string",
+      "image_url": "string",
+      "price": "double",
+      "stock": "integer"
+    }
+  }
+]
+```
