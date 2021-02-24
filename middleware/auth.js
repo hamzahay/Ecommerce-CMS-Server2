@@ -1,5 +1,5 @@
 const { verifyToken } = require('../helper/jwt')
-const { User } = require('../models')
+const { User, Cart } = require('../models')
 
 async function authenticate (req, res, next) {
   try {
@@ -32,4 +32,25 @@ function authorize (req, res, next) {
   }
 }
 
-module.exports = { authenticate, authorize }
+async function cartAuthorize (req, res, next) {
+  try {
+    const id = req.params.id
+    console.log(id, 'from auth')
+    const user = req.user
+    const cart = await Cart.findOne({ where: { id }})
+    if (cart) {
+      if (cart.UserId == user.id) {
+        next()
+      } else {
+        throw ({ name: 403 })
+      }
+    } else {
+      throw ({ name: 404 })
+    }
+  } catch (err) {
+    console.log(err)
+    next(err)
+  }
+}
+
+module.exports = { authenticate, authorize, cartAuthorize }

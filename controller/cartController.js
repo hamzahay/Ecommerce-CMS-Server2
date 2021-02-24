@@ -1,4 +1,4 @@
-const { Cart, Product } = require('../models')
+const { Cart, Product, History } = require('../models')
 
 class Controller {
 
@@ -36,17 +36,13 @@ class Controller {
     try {
       const id = req.params.id
       const cart = await Cart.findOne({ where: { id }})
-      if (cart) {
-        const product = await Product.findByPk(cart.id)
-        if (product.stock !== cart.quantity) {
-          const quantity = cart.quantity++
-          const response = await Cart.update({ quantity }, { where: { id }})
-          res.status(200).json({ message: 'Update Success' })
-        } else {
-          throw ({ name: 401 })
-        }
+      const product = await Product.findByPk(cart.ProductId)
+      if (product.stock !== cart.quantity) {
+        const quantity = cart.quantity + 1
+        const response = await Cart.update({ quantity }, { where: { id }})
+        res.status(200).json({ message: 'Update Success' })
       } else {
-        throw ({ name: 404 })
+        throw ({ name: 401 })
       }
     } catch (err) {
       console.log(err)
@@ -59,6 +55,31 @@ class Controller {
       const id = req.params.id
       const response = await Cart.destoy({ where: { id }})
       res.status(200).json({ message: 'Delete Success' })
+    } catch (err) {
+      console.log(err)
+      next(err)
+    }
+  }
+
+  static async checkout (req, res, next) {
+    try {
+      const id = req.params.id
+      const status = true
+      const cart = await Cart.update({ status }, { where: { id }, returning: true })
+      const product = await Product.findOne({ where: { id: cart[1][0].ProductId }})
+      const history = await History.create({ 
+        name: product.name,
+        imageUrl: product.image_url,
+        price: product.price,
+        quantity: cart[1][0].quantity
+      })
+      res.status(200).json({
+        id: history.id,
+        name: history.name,
+        imageUrl: history.image_url,
+        price: history.price,
+        quantity: history.quantity
+      })
     } catch (err) {
       console.log(err)
       next(err)
