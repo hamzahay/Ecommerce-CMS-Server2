@@ -23,7 +23,7 @@ class Controller {
   static async getUserCart (req, res, next) {
     try {
       const UserId = req.user.id
-      const carts = await Cart.findAll({ where: { UserId }, attributes: {include: ['id'], exclude: ['createdAt', 'updatedAt'] },
+      const carts = await Cart.findAll({ where: { UserId, status: false }, attributes: {include: ['id'], exclude: ['createdAt', 'updatedAt'] },
       include: { model: Product, attributes: { exclude: ['createdAt', 'updatedAt'] }}})
       res.status(200).json(carts)
     } catch (err) {
