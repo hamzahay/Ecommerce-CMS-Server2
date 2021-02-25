@@ -6,8 +6,8 @@ const { authenticate } = require('../middleware/auth')
 const Controller = require('../controller/historyController')
 
 router.use('/', userRoutes)
-router.use(authenticate)
 router.use('/products', productRoutes)
+router.use(authenticate)
 router.use('/carts', cartRoutes)
 router.get('/histories', Controller.getHistories)
 module.exports = router
