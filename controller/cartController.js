@@ -35,15 +35,21 @@ class Controller {
   static async addCartQuantity (req, res, next) {
     try {
       const id = req.params.id
+      const operator = req.body.operator
       const cart = await Cart.findOne({ where: { id }})
       const product = await Product.findByPk(cart.ProductId)
-      if (product.stock !== cart.quantity) {
-        const quantity = cart.quantity + 1
-        const response = await Cart.update({ quantity }, { where: { id }})
-        res.status(200).json({ message: 'Update Success' })
-      } else {
-        throw ({ name: 401 })
+      let quantity
+      if (operator == 'plus') {
+        if (product.stock !== cart.quantity) {
+          quantity = cart.quantity + 1
+        } else {
+          throw ({ name: 401 })
+        }
+      } else if (operator == 'minus') {
+        quantity = cart.quantity - 1
       }
+      const response = await Cart.update({ quantity }, { where: { id }})
+      res.status(200).json({ message: 'Update Success' })
     } catch (err) {
       console.log(err)
       next(err)
@@ -53,7 +59,7 @@ class Controller {
   static async deleteCart (req, res, next) {
     try {
       const id = req.params.id
-      const response = await Cart.destoy({ where: { id }})
+      const response = await Cart.destroy({ where: { id }})
       res.status(200).json({ message: 'Delete Success' })
     } catch (err) {
       console.log(err)
